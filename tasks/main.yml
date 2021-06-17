@@ -1,19 +1,37 @@
 ---
-- name: include variable overrides
-  set_fact:
-    _couchdb_cluster_package: "{{ couchdb_cluster_package | default(_couchdb_cluster_package_default | sorted_get(overrides)) }}"
-  vars:
-    overrides:
-      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_release | lower }}"
-      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
-      - "{{ ansible_distribution | lower }}"
-      - "{{ ansible_os_family | lower }}"
-      - "default"
-  tags:
-    - always
 
-- name: install couchdb_cluster package
+- name: Add couchdb repo
+  include_tasks: 'repo-{{ ansible_os_family }}.yml'
+  tags: ['install']
+
+- name: Install couchdb dependencies
+  ansible.builtin.package:
+    name:
+      - curl
+      - apt-transport-https
+      - gnupg
+    state: present
+
+- name: Install couchdb package
+  ansible.builtin.package:
+    name: couchdb
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: Create couchdb group
   become: yes
-  package:
-    name: "{{ _couchdb_cluster_package }}"
-    state: "{{ couchdb_cluster_state }}"
+  become_user: root
+  ansible.buiting.group:
+    name: couchdb
+    state: present
+
+- name: Create couchdb user
+  become: yes
+  become_user: root
+  ansible.builtin.user:
+    name: couchdb
+    group: couchdb
+    home: "/usr/local/couchdb"
+    state: present
+
+
