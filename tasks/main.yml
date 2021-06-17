@@ -21,7 +21,7 @@
 - name: Create couchdb group
   become: yes
   become_user: root
-  ansible.buiting.group:
+  ansible.builtin.group:
     name: couchdb
     state: present
 
@@ -34,4 +34,14 @@
     home: "/usr/local/couchdb"
     state: present
 
-
+- name: Configure couchdb from ini files
+  become: yes
+  become_user: root
+  template:
+    src: "{{ item }}"
+    dest: /opt/couchdb/etc/local.d/{{ item | basename | regex_replace('\.j2', '') }}
+    owner: couchdb
+    group: couchdb
+    mode: 0644
+  with_fileglob:
+    - templates/*.j2
