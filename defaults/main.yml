@@ -4,3 +4,9 @@ _couchdb_cluster_package_default:
     - couchdb_cluster
 
 couchdb_cluster_state: present
+
+couchdb_bind:
+  ty: interface
+
+couchdb_require_valid_user: false
+couchdb_reduce_limit: true
