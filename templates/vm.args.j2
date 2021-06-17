@@ -1,0 +1,9 @@
+{% if couchdb_bind.ty == "static" %}
+-name couchdb@{{ couchdb_bind.host }}
+{% elif couchdb_bind.ty == "interface" %}
+-name couchdb@{{ ansible_hostname }}
+{% else %}
+-name couchdb@localhost
+{% endif %}
+-kernel inet_dist_listen_min 9100
+-kernel inet_dist_listen_max 9100
