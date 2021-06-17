@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt:
+        update_cache: yes
+      when: (ansible_os_family | lower) == 'debian'
+
+  roles:
+    - role: wpninfra.couchdb_cluster

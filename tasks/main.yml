@@ -1,0 +1,19 @@
+---
+- name: include variable overrides
+  set_fact:
+    _couchdb_cluster_package: "{{ couchdb_cluster_package | default(_couchdb_cluster_package_default | sorted_get(overrides)) }}"
+  vars:
+    overrides:
+      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_release | lower }}"
+      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
+      - "{{ ansible_distribution | lower }}"
+      - "{{ ansible_os_family | lower }}"
+      - "default"
+  tags:
+    - always
+
+- name: install couchdb_cluster package
+  become: yes
+  package:
+    name: "{{ _couchdb_cluster_package }}"
+    state: "{{ couchdb_cluster_state }}"

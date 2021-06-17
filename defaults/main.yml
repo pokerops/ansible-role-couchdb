@@ -1,0 +1,6 @@
+---
+_couchdb_cluster_package_default:
+  default:
+    - couchdb_cluster
+
+couchdb_cluster_state: present
