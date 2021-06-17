@@ -1,23 +1,14 @@
 ---
 galaxy_info:
   role_name: couchdb_cluster
-  author: wpninfra
-  description: An Ansible role to install and configure couchdb_cluster
+  author: Jose Solis
+  description: An Ansible role to install and configure a couchdb cluster
   license: MIT
   min_ansible_version: 2.2
   platforms:
-    - name: EL
-      versions:
-        - 7
-    - name: Archlinux
-      versions:
-        - all
     - name: Ubuntu
       versions:
-        - xenial
-    - name: Debian
-      versions:
-        - stretch
+        - focal
   galaxy_tags: ['couchdb_cluster']
 
 dependencies:
