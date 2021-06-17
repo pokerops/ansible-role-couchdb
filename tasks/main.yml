@@ -34,6 +34,18 @@
     home: "/usr/local/couchdb"
     state: present
 
+- name: Configure couchdb vm.args file
+  become: yes
+  become_user: root
+  template:
+    src: "{{ item }}"
+    dest: /opt/couchdb/etc/{{ item | basename | regex_replace('\.j2', '') }}
+    owner: couchdb
+    group: couchdb
+    mode: 0644
+  with_fileglob:
+    - templates/etc/vm.args.j2
+
 - name: Configure couchdb from ini files
   become: yes
   become_user: root

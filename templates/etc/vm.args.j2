@@ -1,7 +1,7 @@
 {% if couchdb_bind.ty == "static" %}
 -name couchdb@{{ couchdb_bind.host }}
 {% elif couchdb_bind.ty == "interface" %}
--name couchdb@{{ ansible_hostname }}
+-name couchdb@{{ ansible_default_ipv4.address }}
 {% else %}
 -name couchdb@localhost
 {% endif %}
