@@ -15,4 +15,4 @@
       when: (ansible_os_family | lower) == 'debian'
 
   roles:
-    - role: ansible-role-couchdb-cluster
+    - role: ansible-role-couchdb
