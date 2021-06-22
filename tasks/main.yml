@@ -66,6 +66,14 @@
     couchdb_data_user: "{{ couchdb_user }}"
     couchdb_data_group: "{{ couchdb_group }}"
 
+- name: create couchdb backup daily schedule
+  become: yes
+  ansible.builtin.cron:
+    name: "couchdb backup daily"
+    special_time: daily
+    job: "{{ couchdb_restore_bin }}"
+  when: couchdb_backup_daily == true
+
 - name: Configure couchdb vm.args file
   become: yes
   become_user: root

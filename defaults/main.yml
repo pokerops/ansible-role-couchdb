@@ -10,6 +10,7 @@ couchdb:
   require_auth: never
 couchdb_user: couchdb
 couchdb_group: couchdb
+couchdb_backup_daily: false
 couchdb_backup_target: /backups/couchdb/
 couchdb_backup_retention_days: 3
 couchdb_backup_bin: /usr/local/bin/couchdb-backup
