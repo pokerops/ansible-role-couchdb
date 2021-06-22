@@ -38,6 +38,8 @@
   file:
     path: "{{ couchdb_backup_target }}"
     state: directory
+  tags:
+    - skip_ansible_lint
 
 - name: create couchdb data backup script
   become: yes
@@ -72,7 +74,7 @@
     name: "couchdb backup daily"
     special_time: daily
     job: "{{ couchdb_restore_bin }}"
-  when: couchdb_backup_daily == true
+  when: couchdb_backup_daily
 
 - name: Configure couchdb vm.args file
   become: yes
