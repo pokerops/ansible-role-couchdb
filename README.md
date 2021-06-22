@@ -1,9 +1,9 @@
-# wpninfra.couchdb_cluster
+# wpninfra.couchdb
 
-[![Build Status](https://github.com/wpninfra/ansible-role-couchdb-cluster/workflows/CI/badge.svg)](https://github.com/wpninfra/ansible-role-couchdb-cluster/actions)
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-wpninfra.couchdb_cluster.vim-blue.svg)](https://galaxy.ansible.com/wpninfra/couchdb_cluster/)
+[![Build Status](https://github.com/wpninfra/ansible-role-couchdb/workflows/CI/badge.svg)](https://github.com/wpninfra/ansible-role-couchdb-/actions)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-wpninfra.couchdb.vim-blue.svg)](https://galaxy.ansible.com/wpninfra/couchdb/)
 
-An [ansible role](https://galaxy.ansible.com/wpninfra/couchdb_cluster) to install and configure couchdb_cluster
+An [ansible role](https://galaxy.ansible.com/wpninfra/couchdb) to install and configure couchdb
 
 ## Role Variables
 
@@ -17,8 +17,8 @@ By default this role does not depend on any external roles. If any such dependen
 
 - hosts: servers
   roles:
-     - role: wpninfra.couchdb_cluster
-       couchdb_cluster_package_state: latest
+     - role: wpninfra.couchdb
+       couchdb_package_state: latest
 
 ## Testing
 
