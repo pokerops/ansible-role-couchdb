@@ -1,0 +1,35 @@
+---
+name: lint
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+defaults:
+  run:
+    working-directory: 'ansible-role-couchdb'
+
+jobs:
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: 'ansible-role-couchdb'
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install yamllint ansible-lint ansible
+
+      - name: Lint code.
+        run: |
+          yamllint .
+          ansible-lint .
