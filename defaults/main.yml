@@ -8,6 +8,33 @@ couchdb_bind:
 # Possible values are always, except_for_up and never
 couchdb:
   require_auth: never
+couchdb_user: couchdb
+couchdb_group: couchdb
+couchdb_backup_target: /backups/couchdb/
+couchdb_backup_retention_days: 3
+couchdb_backup_bin: /usr/local/bin/couchdb-backup
+couchdb_restore_bin: /usr/local/bin/couchdb-restore
+couchdb_cookie: monster
+couchdb_kernel_poll: "true"
+couchdb_IO_threads: 16
+couchdb_smp_scheduler: enable
+couchdb_ssl_session_lifetime: 300
+couchdb_uuid: 5fcbbf2cb171b1d5c3bc6df3d4affb32
+couchdb_data_dir: /opt/couchdb/data/
+couchdb_index_dir: /opt/couchdb/data/
+couchdb_os_process_timeout_ms: 5000
+couchdb_max_dbs_open: 500
+couchdb_file_compression_method: snappy
+couchdb_attachment_stream_buffer_size: 4096
+couchdb_default_security: admin_only
+couchdb_changes_doc_ids_optimiztion_threshold: 100
+couchdb_max_document_size_bytes: 8000000
+couchdb_default_engine: couch
+couchdb_users_db_security_editable: false
+couchdb_httpd_backlog: 512
+couchdb_httpd_max_db_info_req: 100
+couchdb_log_level: info
+initialize_default_databases: true
 
 ## Define to create admin users like so
 #
