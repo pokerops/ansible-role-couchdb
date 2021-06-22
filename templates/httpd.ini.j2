@@ -1,7 +1,0 @@
-# bind configuration for couchdb goes here
-[chttpd]
-
-port = 5984
-bind_address = {{ ansible_default_ipv4.address }}
-server_options = [{backlog, 128}, {acceptor_pool_size, 16}]
-require_valid_user = {{ couchdb_require_valid_user | to_json}}
