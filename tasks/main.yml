@@ -57,3 +57,4 @@
     mode: 0644
   with_fileglob:
     - templates/*.j2
+  notify: Restart CouchDB service
