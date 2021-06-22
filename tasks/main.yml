@@ -1,0 +1,102 @@
+---
+
+- name: Add couchdb repo
+  include_tasks: 'repo-{{ ansible_os_family }}.yml'
+  tags: ['install']
+
+- name: Install couchdb dependencies
+  ansible.builtin.package:
+    name:
+      - curl
+      - apt-transport-https
+      - gnupg
+    state: present
+
+- name: Install couchdb package
+  ansible.builtin.package:
+    name: couchdb
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: Create couchdb group
+  become: yes
+  become_user: root
+  ansible.builtin.group:
+    name: "{{ couchdb_group }}"
+    state: present
+
+- name: Create couchdb user
+  become: yes
+  become_user: root
+  ansible.builtin.user:
+    name: "{{ couchdb_user }}"
+    group: "{{ couchdb_group }}"
+    home: "/usr/local/couchdb"
+    state: present
+
+- name: create backup directory
+  file:
+    path: "{{ couchdb_backup_target }}"
+    state: directory
+  tags:
+    - skip_ansible_lint
+
+- name: create couchdb data backup script
+  become: yes
+  template:
+    src: "templates/scripts/couchdb-backup.sh.j2"
+    dest: "{{ couchdb_backup_bin }}"
+    group: root
+    owner: root
+    mode: 0750
+  vars:
+    backup_path: "{{ couchdb_backup_target }}"
+    data_dir: "{{ couchdb_data_dir }}"
+    retention_period: "{{ couchdb_backup_retention_days }}"
+
+- name: create couchdb data restore script
+  become: yes
+  template:
+    src: "templates/scripts/couchdb-restore.sh.j2"
+    dest: "{{ couchdb_restore_bin }}"
+    group: root
+    owner: root
+    mode: 0750
+  vars:
+    backup_path: "{{ couchdb_backup_target }}"
+    data_dir: "{{ couchdb_data_dir }}"
+    couchdb_data_user: "{{ couchdb_user }}"
+    couchdb_data_group: "{{ couchdb_group }}"
+
+- name: create couchdb backup daily schedule
+  become: yes
+  ansible.builtin.cron:
+    name: "couchdb backup daily"
+    special_time: daily
+    job: "{{ couchdb_restore_bin }}"
+  when: couchdb_backup_daily
+
+- name: Configure couchdb vm.args file
+  become: yes
+  become_user: root
+  template:
+    src: "{{ item }}"
+    dest: /opt/couchdb/etc/{{ item | basename | regex_replace('\.j2', '') }}
+    owner: couchdb
+    group: couchdb
+    mode: 0644
+  with_fileglob:
+    - templates/etc/vm.args.j2
+
+- name: Configure couchdb from ini files
+  become: yes
+  become_user: root
+  template:
+    src: "{{ item }}"
+    dest: /opt/couchdb/etc/local.d/{{ item | basename | regex_replace('\.j2', '') }}
+    owner: couchdb
+    group: couchdb
+    mode: 0644
+  with_fileglob:
+    - templates/config/*.j2
+  notify: Restart CouchDB service

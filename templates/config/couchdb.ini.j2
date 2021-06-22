@@ -1,0 +1,14 @@
+[couchdb]
+uuid = {{ couchdb_uuid }}
+single_node = {{ initialize_default_databases }}
+database_dir = {{ couchdb_data_dir }}
+view_index_dir = {{ couchdb_index_dir }}
+os_process_timeout = {{ couchdb_os_process_timeout_ms }}
+max_dbs_open = {{ couchdb_max_dbs_open }}
+file_compression_method = {{ couchdb_file_compression_method }}
+attachment_stream_buffer_size = {{ couchdb_attachment_stream_buffer_size }}
+default_security = {{ couchdb_default_security }}
+changes_doc_ids_optimization_threshold = {{ couchdb_changes_doc_ids_optimiztion_threshold }}
+max_document_size = {{ couchdb_max_document_size_bytes }}
+default_engine = {{ couchdb_default_engine }}
+users_db_security_editable = {{ couchdb_users_db_security_editable }}

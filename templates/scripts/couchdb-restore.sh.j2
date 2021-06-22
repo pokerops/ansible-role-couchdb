@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# create temporary directory
+TMPDIR=/tmp/couchdb_restore
+
+for file in $(find {{ backup_path }} -type f -name *data.tgz)
+do
+    [[ $file -nt $latest_backup ]] && latest_backup=$file
+done
+
+echo "restoring from $latest_backup ..."
+mkdir -p $TMPDIR
+systemctl stop couchdb
+rm -r {{ data_dir }}*
+
+tar xvzf $latest_backup -C $TMPDIR
+cp -r $TMPDIR/* {{ data_dir }}
+chown -R {{ couchdb_user }}:{{ couchdb_group }} {{ data_dir }}
+
+systemctl restart couchdb
+
+rm -r $TMPDIR

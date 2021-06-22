@@ -1,0 +1,20 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+platforms:
+  - name: couchdb_ubuntu_instance_2004
+    image: geerlingguy/docker-ubuntu2004-ansible
+    privileged: true
+    command: '/sbin/init'
+    cap_add: ['SYS_ADMIN', 'SETPCAP']
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint

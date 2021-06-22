@@ -1,0 +1,26 @@
+
+-name couchdb@127.0.0.1
+
+# All nodes must share the same magic cookie for distributed Erlang to work.
+# Comment out this line if you synchronized the cookies by other means (using
+# the ~/.erlang.cookie file, for example).
+-setcookie {{ couchdb_cookie }}
+
+# Tell kernel and SASL not to log anything
+-kernel error_logger silent
+-sasl sasl_error_logger false
+
+# Use kernel poll functionality if supported by emulator
++K {{ couchdb_kernel_poll }}
+
+# Start a pool of asynchronous IO threads
++A {{ couchdb_IO_threads }}
+
+# Comment this line out to enable the interactive Erlang shell on startup
++Bd -noinput
+
+# Force use of the smp scheduler, fixes #1296
+-smp {{ couchdb_smp_scheduler }}
+
+# Set maximum SSL session lifetime to reap terminated replication readers
+-ssl session_lifetime {{ couchdb_ssl_session_lifetime }}

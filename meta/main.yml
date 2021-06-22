@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  role_name: couchdb
+  author: Jose Solis
+  description: An Ansible role to install and configure a couchdb
+  license: MIT
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+  galaxy_tags: ['couchdb']
