@@ -31,8 +31,7 @@
         status_code: 412
 
     - name: create CouchDB data backup
-      ansible.builtin.command:
-        cmd: /usr/local/bin/couchdb-backup
+      ansible.builtin.command: /usr/local/bin/couchdb-backup
 
     - name: Delete test database
       uri:
@@ -53,8 +52,7 @@
         status_code: 404
 
     - name: Restore CouchDB from data backup
-      ansible.builtin.command:
-        cmd: /usr/local/bin/couchdb-restore
+      ansible.builtin.command: /usr/local/bin/couchdb-restore
 
     - name: Verify test database exists
       uri:
