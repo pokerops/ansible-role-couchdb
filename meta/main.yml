@@ -10,6 +10,3 @@ galaxy_info:
       versions:
         - focal
   galaxy_tags: ['couchdb']
-
-dependencies:
-  - nephelaiio.plugins
