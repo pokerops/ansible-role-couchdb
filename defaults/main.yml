@@ -1,12 +1,20 @@
 ---
-_couchdb_cluster_package_default:
-  default:
-    - couchdb_cluster
-
-couchdb_cluster_state: present
 
 couchdb_bind:
-  ty: interface
+  port: 5984
 
-couchdb_require_valid_user: false
-couchdb_reduce_limit: true
+## changes the require_valid_user param for chttpd
+#
+# Possible values are always, except_for_up and never
+couchdb:
+  require_auth: never
+
+## Define to create admin users like so
+#
+# couchdb_admins:
+#   admin: verysecurepassword
+#   admin1: verysecurepassword1
+#
+# If undefined creates the following:
+# couchdb_admins:
+#   admin: password
