@@ -22,17 +22,49 @@
   become: yes
   become_user: root
   ansible.builtin.group:
-    name: couchdb
+    name: "{{ couchdb_group }}"
     state: present
 
 - name: Create couchdb user
   become: yes
   become_user: root
   ansible.builtin.user:
-    name: couchdb
-    group: couchdb
+    name: "{{ couchdb_user }}"
+    group: "{{ couchdb_group }}"
     home: "/usr/local/couchdb"
     state: present
+
+- name: create backup directory
+  file:
+    path: "{{ couchdb_backup_target }}"
+    state: directory
+
+- name: create couchdb data backup script
+  become: yes
+  template:
+    src: "templates/scripts/couchdb-backup.sh.j2"
+    dest: "{{ couchdb_backup_bin }}"
+    group: root
+    owner: root
+    mode: 0750
+  vars:
+    backup_path: "{{ couchdb_backup_target }}"
+    data_dir: "{{ couchdb_data_dir }}"
+    retention_period: "{{ couchdb_backup_retention_days }}"
+
+- name: create couchdb data restore script
+  become: yes
+  template:
+    src: "templates/scripts/couchdb-restore.sh.j2"
+    dest: "{{ couchdb_restore_bin }}"
+    group: root
+    owner: root
+    mode: 0750
+  vars:
+    backup_path: "{{ couchdb_backup_target }}"
+    data_dir: "{{ couchdb_data_dir }}"
+    couchdb_data_user: "{{ couchdb_user }}"
+    couchdb_data_group: "{{ couchdb_group }}"
 
 - name: Configure couchdb vm.args file
   become: yes

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# create temporary directory
+TMPDIR=/tmp/couchdb_backup
+NOWTIME=$(date +%Y%m%d-%H%M%S)
+mkdir -p $TMPDIR/data
+
+# backup couchdb data
+cp -r {{ data_dir }}* $TMPDIR/data
+cd $TMPDIR/data/
+tar cvzf {{ backup_path }}$NOWTIME-data.tgz *
+
+# prune stale backups
+find {{ backup_path }} -name "*data.tgz" -ctime +{{ retention_period }} -delete
+
+rm -r $TMPDIR
