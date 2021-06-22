@@ -1,9 +1,9 @@
 {% if couchdb_admins is defined %}
 [admins]
 {% for (userid, pwd) in couchdb_admins.items() %}
-{{ userid }} = {{ pwd | couchdb_password_hash( userid | hash('sha1')) }}
+{{ userid }} = {{ pwd | couchdb_password_hash( userid ) }}
 {% endfor %}
 {% else %}
 [admins]
-admin = {{ 'password' | couchdb_password_hash( 'admin' | hash('sha1')) }}
+admin = {{ 'password' | couchdb_password_hash( 'admin' ) }}
 {% endif %}

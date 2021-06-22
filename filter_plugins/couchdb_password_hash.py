@@ -1,33 +1,18 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
-import binascii
 import hashlib
-import six
-
-try:
-    from passlib.hash import pbkdf2_sha1
-    from passlib.utils import binary
-    HAS_PASSLIB = True
-except ImportError:
-    HAS_PASSLIB = False
 
 
-def couchdb_password_hash(password, salt, iterations=10):
-    bsalt = salt.encode('utf-8') if isinstance(salt, six.text_type) else salt
-    if not HAS_PASSLIB:
-        return '-hashed-{hash},{salt}'.format(
-            hash=hashlib.sha1(password + bsalt).hexdigest(),
-            salt=salt
-        )
-    else:
-        dk = pbkdf2_sha1.using(rounds=iterations, salt=bsalt).hash(password)
-        decoded = binary.ab64_decode(dk.split('$')[-1])
-        return '-pbkdf2-{hash},{salt},{iterations}'.format(
-            hash=binascii.hexlify(decoded).decode("ascii"),
-            salt=salt,
-            iterations=iterations
-        )
+def couchdb_password_hash(password, user, iterations=10):
+    bsalt = hashlib.sha1(user.encode())
+    hexbsalt = bsalt.hexdigest()
+    password_hash = hashlib.pbkdf2_hmac('sha1', password.encode(), hexbsalt.encode(), iterations)
+    print(password_hash.hex())
+
+    couchdb_hash = "-pbkdf2-" + password_hash.hex() + "," + hexbsalt + "," + str(iterations)
+
+    return(couchdb_hash)
 
 
 class FilterModule(object):
