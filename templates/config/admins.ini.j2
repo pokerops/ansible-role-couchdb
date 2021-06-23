@@ -5,5 +5,5 @@
 {% endfor %}
 {% else %}
 [admins]
-admin = {{ 'password' | couchdb_password_hash( 'admin' ) }}
+admin = {{ 'password' | string | couchdb_password_hash( 'admin' ) }}
 {% endif %}
