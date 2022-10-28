@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: 'ansible-role-couchdb'
+    working-directory: 'wpnops.couchdb'
 
 jobs:
 
@@ -18,7 +18,7 @@ jobs:
       - name: Check out the codebase.
         uses: actions/checkout@v2
         with:
-          path: 'ansible-role-couchdb'
+          path: 'wpnops.couchdb'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2

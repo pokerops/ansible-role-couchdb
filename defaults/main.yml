@@ -1,13 +1,6 @@
 ---
-
-couchdb_bind:
-  port: 5984
-
-## changes the require_valid_user param for chttpd
-#
-# Possible values are always, except_for_up and never
-couchdb:
-  require_auth: never
+couchdb_bind_port: 5984
+couchdb_require_auth: never # always | except_for_up | never
 couchdb_user: couchdb
 couchdb_group: couchdb
 couchdb_backup_daily: false
@@ -17,7 +10,7 @@ couchdb_backup_bin: /usr/local/bin/couchdb-backup
 couchdb_restore_bin: /usr/local/bin/couchdb-restore
 couchdb_cookie: monster
 couchdb_kernel_poll: "true"
-couchdb_IO_threads: 16
+couchdb_io_threads: 16
 couchdb_smp_scheduler: enable
 couchdb_ssl_session_lifetime: 300
 couchdb_uuid: 5fcbbf2cb171b1d5c3bc6df3d4affb32
@@ -35,14 +28,7 @@ couchdb_users_db_security_editable: false
 couchdb_httpd_backlog: 512
 couchdb_httpd_max_db_info_req: 100
 couchdb_log_level: info
-initialize_default_databases: true
+couchdb_single_node: true
 
-## Define to create admin users like so
-#
-# couchdb_admins:
-#   admin: verysecurepassword
-#   admin1: verysecurepassword1
-#
-# If undefined creates the following:
-# couchdb_admins:
-#   admin: password
+couchdb_admins:
+  admin: password

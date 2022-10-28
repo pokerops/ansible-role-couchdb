@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: converge
 
   hosts: all
 
@@ -22,4 +22,4 @@
       when: (ansible_os_family | lower) == 'debian'
 
   roles:
-    - role: ansible-role-couchdb
+    - role: wpnops.couchdb
