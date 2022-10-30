@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "wpnops-couchdb"
+version = "0.1.0"
+description = ""
+authors = ["Ted Cook <teodoro.cook@gmail.com>"]
+readme = "README.md"
+packages = [{include = "wpnops"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+
+[tool.poetry.group.dev.dependencies]
+ansible = "^6.5.0"
+molecule = {extras = ["docker"], version = "^4.0.3"}
+ansible-lint = "^6.8.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

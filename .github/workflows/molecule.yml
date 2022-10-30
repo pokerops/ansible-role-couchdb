@@ -17,7 +17,7 @@ defaults:
 jobs:
 
   molecule:
-    name: Molecule
+    name: molecule
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,11 +34,14 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install Poetry
+        run: pip3 install poetry
+
       - name: Install test dependencies.
-        run: pip3 install ansible molecule[docker] docker pytest pytest-testinfra ansible-lint
+        run: poetry install
 
       - name: Run Molecule tests.
-        run: molecule test --all
+        run: poetry run molecule test --all
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
