@@ -7,7 +7,7 @@
 
   tasks:
 
-    - name: verify CouchDB status
+    - name: verify daemon status
       uri:
         url: "http://localhost:5984"
         status_code: 200

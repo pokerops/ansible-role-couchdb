@@ -1,12 +1,13 @@
 ---
-- name: Converge
+- name: converge
 
   hosts: all
 
   become: true
 
   roles:
-    - role: wpnops.couchdb
+
+    - wpnops.couchdb
 
   pre_tasks:
 

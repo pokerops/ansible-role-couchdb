@@ -16,33 +16,66 @@ defaults:
 
 jobs:
 
-  molecule:
-    name: molecule
-    runs-on: ubuntu-latest
+  focal:
+    name: molecule-20.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        image:
-          - geerlingguy/docker-ubuntu2004-ansible:latest
+        scenario:
+          - default
+          - users
+          - restore
     steps:
-      - name: Check out the codebase.
+      - name: check out the codebase.
         uses: actions/checkout@v2
         with:
           path: 'wpnops.couchdb'
 
-      - name: Set up Python 3.
+      - name: set up Python 3.
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
-      - name: Install Poetry
+      - name: install poetry
         run: pip3 install poetry
 
-      - name: Install test dependencies.
+      - name: install pips
         run: poetry install
 
-      - name: Run Molecule tests.
-        run: poetry run molecule test --all
+      - name: run molecule tests.
+        run: poetry run molecule test -s ${{ matrix.scenario }}
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DOCKER_IMAGE: ${{ matrix.image }}
+
+  impish:
+    name: molecule-22.04
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        scenario:
+          - default
+          - users
+          - restore
+    steps:
+      - name: check out the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: 'wpnops.couchdb'
+
+      - name: set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: install poetry
+        run: pip3 install poetry
+
+      - name: install pips
+        run: poetry install
+
+      - name: run molecule tests.
+        run: poetry run molecule test -s ${{ matrix.scenario }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'

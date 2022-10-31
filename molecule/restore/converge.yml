@@ -3,15 +3,11 @@
 
   hosts: all
 
-  roles:
-    - role: wpnops.couchdb
+  become: true
 
-  vars:
-    couchdb:
-      require_auth: except_for_up
-    couchdb_admins:
-      admin: password
-      test_admin: password1
+  roles:
+
+    - wpnops.couchdb
 
   pre_tasks:
 

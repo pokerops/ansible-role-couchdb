@@ -17,6 +17,13 @@
     value: "{{ couchdb_install_mode }}"
     vtype: select
 
+- name: configure cookie
+  ansible.builtin.debconf:
+    name: couchdb
+    question: couchdb/cookie
+    value: "{{ couchdb_cookie }}"
+    vtype: string
+
 - name: install couchdb package
   ansible.builtin.apt:
     name: "{{ couchdb_install_package }}"

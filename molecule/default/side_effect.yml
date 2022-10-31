@@ -1,0 +1,17 @@
+---
+- name: converge
+
+  hosts: all
+
+  become: true
+
+  roles:
+
+    - wpnops.couchdb
+
+  pre_tasks:
+
+    - name: stop couchdb service
+      ansible.builtin.service:
+        name: "{{ couchdb_service_name }}"
+        state: stopped
