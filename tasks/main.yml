@@ -33,13 +33,6 @@
     name: "{{ couchdb_group }}"
     state: present
 
-- name: create couchdb user
-  ansible.builtin.user:
-    name: "{{ couchdb_user }}"
-    group: "{{ couchdb_group }}"
-    home: "/usr/local/couchdb"
-    state: present
-
 - name: create backup directory
   ansible.builtin.file:
     path: "{{ couchdb_backup_target }}"
