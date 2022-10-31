@@ -7,7 +7,7 @@ on:
 
 jobs:
   keepalive:
-    name: Github Actions keepalive
+    name: keepalive
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
