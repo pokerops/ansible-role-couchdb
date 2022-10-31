@@ -45,12 +45,6 @@ jobs:
   impish:
     name: molecule-22.04
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        scenario:
-          - default
-          - users
-          - restore
     steps:
       - name: check out the codebase.
         uses: actions/checkout@v2
