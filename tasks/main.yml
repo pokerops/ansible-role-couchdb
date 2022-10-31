@@ -74,7 +74,7 @@
 
 - name: create couchdb backup daily schedule
   ansible.builtin.cron:
-    name: "couchdb backup daily"
+    name: "couchdb daily backup"
     special_time: daily
     job: "{{ couchdb_restore_bin }}"
   when: couchdb_backup_daily
@@ -88,6 +88,7 @@
     mode: 0644
   with_fileglob:
     - templates/etc/vm.args.j2
+  notify: restart couchdb
 
 - name: configure couchdb ini files
   ansible.builtin.template:
@@ -99,3 +100,9 @@
   with_fileglob:
     - templates/config/*.j2
   notify: restart couchdb
+
+- name: start couchdb service
+  ansible.builtin.service:
+    name: "{{ couchdb_service_name }}"
+    state: started
+    enabled: true

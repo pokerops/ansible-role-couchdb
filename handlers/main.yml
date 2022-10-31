@@ -2,5 +2,4 @@
 - name: restart couchdb
   ansible.builtin.service:
     name: "{{ couchdb_service_name }}"
-    enabled: true
-    state: started
+    state: restarted
