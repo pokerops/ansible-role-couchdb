@@ -18,7 +18,11 @@
 
   post_tasks:
 
+    - name: wait for service start
+      ansible.builtin.wait_for:
+        port: 5984
+
     - name: verify daemon status
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984"
         status_code: 200
