@@ -8,44 +8,44 @@
   tasks:
 
     - name: verify authentication on main endpoint
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984"
         status_code: 401
 
     - name: verify open status endpoint
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984/_up"
         status_code: 200
 
     - name: create test database for user 1
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: admin
-        password: password
+        password: "{{ couchdb_admins['admin'] }}"
         force_basic_auth: yes
         status_code: 201
 
     - name: verify test database exists for user 1
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: admin
-        password: password
+        password: "{{ couchdb_admins['admin'] }}"
         force_basic_auth: yes
         status_code: 412
 
     - name: delete test database for user 1
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: DELETE
         user: admin
-        password: password
+        password: "{{ couchdb_admins['admin'] }}"
         force_basic_auth: yes
         status_code: 200
 
     - name: create test database for user 2
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: test_admin
@@ -54,7 +54,7 @@
         status_code: 201
 
     - name: verify test database exists for user 2
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: test_admin
@@ -63,7 +63,7 @@
         status_code: 412
 
     - name: delete test database for user 2
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: DELETE
         user: test_admin

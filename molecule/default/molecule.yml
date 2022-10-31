@@ -8,12 +8,9 @@ driver:
     ansible_connection_options:
       ansible_connection: local
       ansible_python_interpreter:  /usr/bin/python3
-lint: |
-  set -e
-  yamllint .
 platforms:
   - name: localhost
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+  playbooks:
+    converge: ../common/converge.yml
