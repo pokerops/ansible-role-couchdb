@@ -5,6 +5,20 @@
 
   become: true
 
-  roles:
+  tasks:
 
-    - wpnops.couchdb
+    - block:
+
+        - name: apply couchdb role
+          ansible.builtin.include_role:
+            name: wpnops.couchdb
+
+      rescue:
+
+        - name: tail couchdb log
+          ansible.builtin.cmd: tail -100 /var/log/couchdb/couchdb.log
+          register: debug_log
+
+        - name: debug couchdb log
+          debug:
+            msg: "{{ debug_log.stdou }}"
