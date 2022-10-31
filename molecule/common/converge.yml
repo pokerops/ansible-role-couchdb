@@ -8,15 +8,3 @@
   roles:
 
     - wpnops.couchdb
-
-  pre_tasks:
-
-    - name: update apt cache.
-      apt:
-        update_cache: yes
-      when: (ansible_os_family | lower) == 'debian'
-
-    - name: install gpg agent
-      apt:
-        name: gpg-agent
-      when: (ansible_os_family | lower) == 'debian'
