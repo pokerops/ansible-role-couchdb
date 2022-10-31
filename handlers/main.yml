@@ -1,7 +1,5 @@
 ---
-
-- name: Restart CouchDB service
-  become: yes
+- name: restart couchdb
   service:
     name: couchdb
     enabled: true

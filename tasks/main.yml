@@ -1,10 +1,8 @@
 ---
+- name: add couchdb repo
+  ansible.builtin.include_tasks: 'repo.yml'
 
-- name: Add couchdb repo
-  ansible.builtin.include_tasks: 'repo-{{ ansible_os_family }}.yml'
-  tags: ['install']
-
-- name: Install couchdb dependencies
+- name: install couchdb dependencies
   ansible.builtin.package:
     name:
       - curl
@@ -12,18 +10,23 @@
       - gnupg
     state: present
 
-- name: Install couchdb package
-  ansible.builtin.package:
+- name: configure installation mode
+  ansible.builtin.debconf:
     name: couchdb
-  environment:
-    DEBIAN_FRONTEND: noninteractive
+    question: couchdb/mode
+    value: "{{ couchdb_install_mode }}"
+    vtype: select
 
-- name: Create couchdb group
+- name: install couchdb package
+  ansible.builtin.apt:
+    name: "{{ couchdb_install_package }}"
+
+- name: create couchdb group
   ansible.builtin.group:
     name: "{{ couchdb_group }}"
     state: present
 
-- name: Create couchdb user
+- name: create couchdb user
   ansible.builtin.user:
     name: "{{ couchdb_user }}"
     group: "{{ couchdb_group }}"
@@ -69,7 +72,7 @@
     job: "{{ couchdb_restore_bin }}"
   when: couchdb_backup_daily
 
-- name: Configure couchdb vm.args file
+- name: configure couchdb vm.args file
   ansible.builtin.template:
     src: "{{ item }}"
     dest: /opt/couchdb/etc/{{ item | basename | regex_replace('\.j2', '') }}
@@ -79,7 +82,7 @@
   with_fileglob:
     - templates/etc/vm.args.j2
 
-- name: Configure couchdb from ini files
+- name: configure couchdb ini files
   ansible.builtin.template:
     src: "{{ item }}"
     dest: /opt/couchdb/etc/local.d/{{ item | basename | regex_replace('\.j2', '') }}
@@ -88,4 +91,4 @@
     mode: 0644
   with_fileglob:
     - templates/config/*.j2
-  notify: Restart CouchDB service
+  notify: restart couchdb

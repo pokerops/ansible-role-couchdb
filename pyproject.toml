@@ -1,14 +1,12 @@
 [tool.poetry]
-name = "wpnops-couchdb"
+name = "couchdb"
 version = "0.1.0"
 description = ""
 authors = ["Ted Cook <teodoro.cook@gmail.com>"]
 readme = "README.md"
-packages = [{include = "wpnops"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-
 
 [tool.poetry.group.dev.dependencies]
 ansible = "^6.5.0"

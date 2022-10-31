@@ -2,18 +2,17 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
+  name: delegated
+  options:
+    managed: False
+    ansible_connection_options:
+      ansible_connection: local
+      ansible_python_interpreter:  /usr/bin/python3
 lint: |
   set -e
   yamllint .
 platforms:
-  - name: couchdb_ubuntu_instance_2004
-    image: geerlingguy/docker-ubuntu2004-ansible
-    privileged: true
-    command: '/sbin/init'
-    cap_add: ['SYS_ADMIN', 'SETPCAP']
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: localhost
 provisioner:
   name: ansible
   lint:

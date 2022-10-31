@@ -1,5 +1,4 @@
-
--name couchdb@127.0.0.1
+-name couchdb@{{ couchdb_bind_address }}
 
 # All nodes must share the same magic cookie for distributed Erlang to work.
 # Comment out this line if you synchronized the cookies by other means (using
@@ -14,7 +13,7 @@
 +K {{ couchdb_kernel_poll }}
 
 # Start a pool of asynchronous IO threads
-+A {{ couchdb_IO_threads }}
++A {{ couchdb_io_threads }}
 
 # Comment this line out to enable the interactive Erlang shell on startup
 +Bd -noinput

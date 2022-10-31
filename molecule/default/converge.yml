@@ -1,18 +1,21 @@
 ---
 - name: Converge
+
   hosts: all
+
   become: true
 
+  roles:
+    - role: wpnops.couchdb
+
   pre_tasks:
-    - name: Update apt cache.
+
+    - name: update apt cache.
       apt:
         update_cache: yes
       when: (ansible_os_family | lower) == 'debian'
 
-    - name: Install gpg agent
+    - name: install gpg agent
       apt:
         name: gpg-agent
       when: (ansible_os_family | lower) == 'debian'
-
-  roles:
-    - role: wpnops.couchdb

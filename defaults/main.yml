@@ -1,6 +1,9 @@
 ---
 couchdb_bind_port: 5984
-couchdb_require_auth: never # always | except_for_up | never
+couchdb_install_mode: none  # standalone | cluster | none
+couchdb_install_package: couchdb
+couchdb_bind_address: 127.0.0.1
+couchdb_require_auth: never  # always | except_for_up | never
 couchdb_user: couchdb
 couchdb_group: couchdb
 couchdb_backup_daily: false
@@ -29,6 +32,5 @@ couchdb_httpd_backlog: 512
 couchdb_httpd_max_db_info_req: 100
 couchdb_log_level: info
 couchdb_single_node: true
-
 couchdb_admins:
   admin: password
