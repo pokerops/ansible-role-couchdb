@@ -15,3 +15,10 @@
       ansible.builtin.service:
         name: "{{ couchdb_service_name }}"
         state: stopped
+
+  post_tasks:
+
+    - name: verify daemon status
+      uri:
+        url: "http://localhost:5984"
+        status_code: 200
