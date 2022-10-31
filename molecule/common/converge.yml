@@ -16,7 +16,7 @@
       rescue:
 
         - name: tail couchdb log
-          ansible.builtin.cmd: tail -100 /var/log/couchdb/couchdb.log
+          ansible.builtin.command: tail -100 /var/log/couchdb/couchdb.log
           register: debug_log
 
         - name: debug couchdb log
