@@ -7,12 +7,12 @@
 
   tasks:
 
-    - name: verify CouchDB status
+    - name: verify couchdb status
       uri:
         url: "http://localhost:5984"
         status_code: 200
 
-    - name: Create test database
+    - name: create test database
       uri:
         url: "http://localhost:5984/test_db"
         method: PUT
@@ -30,10 +30,10 @@
         force_basic_auth: yes
         status_code: 412
 
-    - name: create CouchDB data backup
+    - name: create backup
       ansible.builtin.command: /usr/local/bin/couchdb-backup
 
-    - name: Delete test database
+    - name: delete test database
       uri:
         url: "http://localhost:5984/test_db"
         method: DELETE
@@ -51,7 +51,7 @@
         force_basic_auth: yes
         status_code: 404
 
-    - name: Restore CouchDB from data backup
+    - name: restore from backup
       ansible.builtin.command: /usr/local/bin/couchdb-restore
 
     - name: verify test database exists
