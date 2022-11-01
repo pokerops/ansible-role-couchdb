@@ -17,8 +17,8 @@ defaults:
 jobs:
 
   molecule:
-    name: molecule-20.04
-    runs-on: ubuntu-20.04
+    name: molecule
+    runs-on: ubuntu
     strategy:
       matrix:
         include:
@@ -48,7 +48,7 @@ jobs:
         run: poetry install
 
       - name: install podman
-        run: apt-get install podman
+        run: sudo apt-get install -y podman
 
       - name: configure podman registry
         run: poetry run ansible -m lineinfile localhost -a "path=/etc/containers/registries.conf line='unqualified-search-registries = [\"docker.io\"]'"
