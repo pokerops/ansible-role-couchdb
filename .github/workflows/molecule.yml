@@ -1,0 +1,62 @@
+---
+name: molecule
+
+on:
+
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "0 5 * * 5"
+
+defaults:
+  run:
+    working-directory: 'wpnops.couchdb'
+
+jobs:
+
+  molecule:
+    name: molecule
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - distro: ubuntu2004
+            command: /lib/systemd/systemd
+          - distro: ubuntu2204
+            command: /lib/systemd/systemd
+        scenario:
+          - default
+          - users
+          - restore
+    steps:
+      - name: check out the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: 'wpnops.couchdb'
+
+      - name: set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: install poetry
+        run: pip3 install poetry
+
+      - name: install pips
+        run: poetry install
+
+      - name: install podman
+        run: sudo apt-get install -y podman
+
+      - name: configure podman registry
+        run: poetry run ansible -b -m lineinfile localhost -a "path=/etc/containers/registries.conf line='unqualified-search-registries = [\"docker.io\"]'"
+
+      - name: run molecule tests.
+        run: poetry run molecule test -s ${{ matrix.scenario }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_IMAGE_COMMAND: ${{ matrix.command }}

@@ -1,0 +1,54 @@
+---
+- name: verify
+
+  hosts: all
+
+  become: true
+
+  tasks:
+
+    - name: verify authentication on main endpoint
+      ansible.builtin.uri:
+        url: "http://localhost:5984"
+        status_code: 401
+
+    - name: verify open status endpoint
+      ansible.builtin.uri:
+        url: "http://localhost:5984/_up"
+        status_code: 200
+
+    - name: create test databases
+      ansible.builtin.uri:
+        url: "http://localhost:5984/{{ item.key }}_db"
+        method: PUT
+        user: "{{ item.key }}"
+        password: "{{ item.value }}"
+        force_basic_auth: yes
+        status_code: 201
+      loop_control:
+        label: "{{ item.key }}"
+      loop: "{{ couchdb_admins | dict2items }}"
+
+    - name: verify test databases exist
+      ansible.builtin.uri:
+        url: "http://localhost:5984/{{ item.key }}_db"
+        method: PUT
+        user: "{{ item.key }}"
+        password: "{{ item.value }}"
+        force_basic_auth: yes
+        status_code: 412
+      loop_control:
+        label: "{{ item.key }}"
+      loop: "{{ couchdb_admins | dict2items }}"
+
+    - name: delete test databases
+      ansible.builtin.uri:
+        url: "http://localhost:5984/{{ item.key }}_db"
+        method: DELETE
+        user: "{{ item.key }}"
+        password: "{{ item.value }}"
+        force_basic_auth: yes
+        status_code: 200
+      loop_control:
+        label: "{{ item.key }}"
+      loop: "{{ couchdb_admins | dict2items }}"

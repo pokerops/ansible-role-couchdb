@@ -20,3 +20,11 @@ provisioner:
   playbooks:
     prepare: ../common/prepare.yml
     converge: ../common/converge.yml
+  inventory:
+    hosts:
+      all:
+        vars:
+          couchdb_require_auth: except_for_up
+          couchdb_admins:
+            admin: password
+            test: password1

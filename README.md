@@ -1,6 +1,6 @@
 # wpninfra.couchdb
 
-[![Build Status](https://github.com/wpnops/ansible-role-couchdb/workflows/CI/badge.svg)](https://github.com/wpnops/ansible-role-couchdb/actions)
+[![Build Status](https://github.com/wpnops/ansible-role-couchdb/workflows/ci/badge.svg)](https://github.com/wpnops/ansible-role-couchdb/actions)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-wpninfra.couchdb-blue.svg)](https://galaxy.ansible.com/wpninfra/couchdb/)
 
 An [ansible role](https://galaxy.ansible.com/wpninfra/couchdb) to install and configure couchdb in standalone mode
@@ -17,7 +17,7 @@ By default this role does not depend on any external roles. If any such dependen
 
 - hosts: servers
   roles:
-     - role: wpninfra.couchdb
+     - wpninfra.couchdb
 
 ## Testing
 

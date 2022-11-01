@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "couchdb"
+version = "0.1.0"
+description = ""
+authors = ["Ted Cook <teodoro.cook@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.dev.dependencies]
+ansible-lint = "^6.8.4"
+ansible = "^6.5.0"
+molecule = {extras = ["podman"], version = "^4.0.3"}
+molecule-podman = "^2.0.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

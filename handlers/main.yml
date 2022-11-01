@@ -1,8 +1,5 @@
 ---
-
-- name: Restart CouchDB service
-  become: yes
-  service:
-    name: couchdb
-    enabled: true
-    state: started
+- name: restart couchdb
+  ansible.builtin.service:
+    name: "{{ couchdb_service_name }}"
+    state: restarted

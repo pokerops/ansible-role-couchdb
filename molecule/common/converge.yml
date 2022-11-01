@@ -1,0 +1,25 @@
+---
+- name: converge
+
+  hosts: all
+
+  become: true
+
+  tasks:
+
+    - block:
+
+        - name: apply couchdb role
+          ansible.builtin.include_role:
+            name: wpnops.couchdb
+
+      rescue:
+
+        - name: tail couchdb log
+          ansible.builtin.command: tail -100 /var/log/couchdb/couchdb.log
+          register: debug_log
+
+        - name: debug couchdb log
+          debug:
+            msg: |
+              "{{ debug_log.stdout }}"
