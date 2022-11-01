@@ -15,3 +15,9 @@ provisioner:
   playbooks:
     prepare: ../common/prepare.yml
     converge: ../common/converge.yml
+  inventory:
+    hosts:
+      all:
+        vars:
+          couchdb_admins:
+            admin: password
