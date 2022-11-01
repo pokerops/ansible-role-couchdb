@@ -51,7 +51,7 @@ jobs:
         run: sudo apt-get install -y podman
 
       - name: configure podman registry
-        run: poetry run ansible -m lineinfile localhost -a "path=/etc/containers/registries.conf line='unqualified-search-registries = [\"docker.io\"]'"
+        run: poetry run ansible -b -m lineinfile localhost -a "path=/etc/containers/registries.conf line='unqualified-search-registries = [\"docker.io\"]'"
 
       - name: run molecule tests.
         run: poetry run molecule test -s ${{ matrix.scenario }}
