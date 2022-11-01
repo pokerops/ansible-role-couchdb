@@ -21,4 +21,5 @@
 
         - name: debug couchdb log
           debug:
-            msg: "{{ debug_log.stdout }}"
+            msg: |
+              "{{ debug_log.stdout }}"

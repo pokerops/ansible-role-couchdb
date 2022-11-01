@@ -9,9 +9,10 @@ readme = "README.md"
 python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
-ansible = "^6.5.0"
-molecule = "^4.0.3"
 ansible-lint = "^6.8.4"
+ansible = "^6.5.0"
+molecule = {extras = ["podman"], version = "^4.0.3"}
+molecule-podman = "^2.0.3"
 
 [build-system]
 requires = ["poetry-core"]
