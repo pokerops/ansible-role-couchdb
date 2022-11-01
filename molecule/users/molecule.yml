@@ -19,8 +19,7 @@ provisioner:
     hosts:
       all:
         vars:
-          couchdb:
-            require_auth: except_for_up
+          couchdb_require_auth: except_for_up
           couchdb_admins:
             admin: password
-            test_admin: password1
+            test: password1
