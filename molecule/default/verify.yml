@@ -5,12 +5,6 @@
 
   become: true
 
-  vars:
-
-    couchdb_dbname: test_db
-    couchdb_user: admin
-    couchdb_pass: "{{ couchdb_admins[couchdb_user] }}"
-
   tasks:
 
     - name: verify daemon status
@@ -20,55 +14,27 @@
 
     - name: create test database
       uri:
-        url: "http://localhost:5984/{{ couchdb_dbname }}"
+        url: "http://localhost:5984/test_db"
         method: PUT
-        user: "{{ couchdb_user }}"
-        password: "{{ couchdb_pass }}"
+        user: admin
+        password: password
         force_basic_auth: yes
         status_code: 201
 
     - name: verify test database exists
       uri:
-        url: "http://localhost:5984/{{ couchdb_dbname }}"
+        url: "http://localhost:5984/test_db"
         method: PUT
-        user: "{{ couchdb_user }}"
-        password: "{{ couchdb_pass }}"
+        user: admin
+        password: password
         force_basic_auth: yes
         status_code: 412
-
-    - name: create CouchDB data backup
-      ansible.builtin.command: /usr/local/bin/couchdb-backup
 
     - name: delete test database
       uri:
-        url: "http://localhost:5984/{{ couchdb_dbname }}"
+        url: "http://localhost:5984/test_db"
         method: DELETE
-        user: "{{ couchdb_user }}"
-        password: "{{ couchdb_pass }}"
+        user: admin
+        password: password
         force_basic_auth: yes
         status_code: 200
-
-    - name: verify test database was deleted
-      uri:
-        url: "http://localhost:5984/{{ couchdb_dbname }}"
-        method: DELETE
-        user: "{{ couchdb_user }}"
-        password: "{{ couchdb_pass }}"
-        force_basic_auth: yes
-        status_code: 404
-
-    - name: restore couchdb from data backup
-      ansible.builtin.command: /usr/local/bin/couchdb-restore
-
-    - name: verify test database exists
-      uri:
-        url: "http://localhost:5984/{{ couchdb_dbname }}"
-        method: PUT
-        user: "{{ couchdb_user }}"
-        password: "{{ couchdb_pass }}"
-        force_basic_auth: yes
-        status_code: 412
-      retries: 5
-      delay: 10
-      register: verify_restore
-      until: verify_restore is succeeded
