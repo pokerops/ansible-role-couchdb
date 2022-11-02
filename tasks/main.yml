@@ -78,7 +78,7 @@
     dest: /opt/couchdb/etc/{{ item | basename | regex_replace('\.j2', '') }}
     owner: couchdb
     group: couchdb
-    mode: 0644
+    mode: 0640
   with_fileglob:
     - templates/etc/vm.args.j2
   notify: restart couchdb
@@ -89,7 +89,7 @@
     dest: /opt/couchdb/etc/local.d/{{ item | basename | regex_replace('\.j2', '') }}
     owner: couchdb
     group: couchdb
-    mode: 0644
+    mode: 0640
   with_fileglob:
     - templates/config/*.j2
   notify: restart couchdb
