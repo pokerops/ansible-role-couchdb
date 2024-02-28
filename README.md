@@ -1,10 +1,10 @@
 # wpninfra.couchdb
 
-[![Build Status](https://github.com/wpnops/ansible-role-couchdb/workflows/ci/badge.svg)](https://github.com/wpnops/ansible-role-couchdb/actions)
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-wpninfra.couchdb-blue.svg)](https://galaxy.ansible.com/wpninfra/couchdb/)
+[![Build Status](https://github.com/pokerops/ansible-role-couchdb/workflows/ci/badge.svg)](https://github.com/pokerops/ansible-role-couchdb/actions)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-pokerops.couchdb-blue.svg)](https://galaxy.ansible.com/wpninfra/couchdb/)
 
-An [ansible role](https://galaxy.ansible.com/wpninfra/couchdb) to install and configure couchdb in standalone mode
-
+An [ansible role](https://galaxy.ansible.com/pokerops/couchdb) to install and configure couchdb in standalone mode
+`
 ## Role Variables
 
 Please refer to the [defaults file](/defaults/main.yml) for an up to date list of input parameters.
@@ -17,7 +17,7 @@ By default this role does not depend on any external roles. If any such dependen
 
 - hosts: servers
   roles:
-     - wpninfra.couchdb
+     - pokerops.couchdb
 
 ## Testing
 

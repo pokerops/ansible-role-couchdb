@@ -12,7 +12,7 @@ couchdb_backup_target: /backups/couchdb/
 couchdb_backup_retention_days: 3
 couchdb_backup_bin: /usr/local/bin/couchdb-backup
 couchdb_restore_bin: /usr/local/bin/couchdb-restore
-couchdb_cookie: wpnops
+couchdb_cookie: pokerops
 couchdb_kernel_poll: "true"
 couchdb_io_threads: 16
 couchdb_smp_scheduler: enable

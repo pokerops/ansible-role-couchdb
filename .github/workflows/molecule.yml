@@ -12,7 +12,7 @@ on:
 
 defaults:
   run:
-    working-directory: 'wpnops.couchdb'
+    working-directory: 'pokerops.couchdb'
 
 jobs:
 
@@ -34,7 +34,7 @@ jobs:
       - name: check out the codebase.
         uses: actions/checkout@v2
         with:
-          path: 'wpnops.couchdb'
+          path: 'pokerops.couchdb'
 
       - name: set up Python 3.
         uses: actions/setup-python@v2

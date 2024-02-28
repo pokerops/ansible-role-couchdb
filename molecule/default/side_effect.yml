@@ -7,7 +7,7 @@
 
   roles:
 
-    - wpnops.couchdb
+    - pokerops.couchdb
 
   pre_tasks:
 
