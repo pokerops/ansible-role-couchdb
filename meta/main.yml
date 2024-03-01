@@ -12,5 +12,4 @@ galaxy_info:
         - jammy
   galaxy_tags: ['couchdb']
 
-dependencies:
-  - collection: nephelaiio.plugins
+dependencies: []

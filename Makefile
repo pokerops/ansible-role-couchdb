@@ -22,15 +22,11 @@ lint: install
 	poetry run ansible-lint .
 	poetry run molecule syntax
 
-roles:
-	[ -f ${REQUIREMENTS} ] && yq '.$@[] | .name' -r < ${REQUIREMENTS} \
-		| xargs -L1 poetry run ansible-galaxy role install --force || exit 0
-
 collections:
 	[ -f ${REQUIREMENTS} ] && yq '.$@[]' -r < ${REQUIREMENTS} \
-		| xargs -L1 echo poetry run ansible-galaxy -vvv collection install --force || exit 0
+		| xargs -L1 poetry run ansible-galaxy collection install --force || exit 0
 
-requirements: roles collections
+requirements: collections
 
 dependency create prepare converge idempotence side-effect verify destroy login reset:
 	MOLECULE_DISTRO=${MOLECULE_DISTRO} poetry run molecule $@ -s ${MOLECULE_SCENARIO}
