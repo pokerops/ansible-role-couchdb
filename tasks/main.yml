@@ -1,48 +1,45 @@
 ---
-- name: add couchdb repo
+- name: Add couchdb repo
   ansible.builtin.include_tasks: 'repo.yml'
 
-- name: install couchdb dependencies
+- name: Install couchdb dependencies
   ansible.builtin.package:
-    name:
-      - curl
-      - apt-transport-https
-      - gnupg
+    name: "{{ couchdb_packages }}"
     state: present
 
-- name: configure installation mode
+- name: Configure installation mode
   ansible.builtin.debconf:
     name: couchdb
     question: couchdb/mode
     value: "{{ couchdb_install_mode }}"
     vtype: select
 
-- name: configure cookie
+- name: Configure cookie
   ansible.builtin.debconf:
     name: couchdb
     question: couchdb/cookie
     value: "{{ couchdb_cookie | trim }}"
     vtype: string
 
-- name: install couchdb package
+- name: Install couchdb package
   ansible.builtin.apt:
     name: "{{ couchdb_install_package }}"
 
-- name: create couchdb group
+- name: Create couchdb group
   ansible.builtin.group:
     name: "{{ couchdb_group }}"
     state: present
 
-- name: create backup directory
+- name: Create backup directory
   ansible.builtin.file:
     path: "{{ couchdb_backup_target }}"
     state: directory
   tags:
     - skip_ansible_lint
 
-- name: create couchdb data backup script
+- name: Create couchdb data backup script
   ansible.builtin.template:
-    src: "templates/scripts/couchdb-backup.sh.j2"
+    src: "{{ couchdb_backup_template }}"
     dest: "{{ couchdb_backup_bin }}"
     group: root
     owner: root
@@ -52,9 +49,9 @@
     data_dir: "{{ couchdb_data_dir }}"
     retention_period: "{{ couchdb_backup_retention_days }}"
 
-- name: create couchdb data restore script
+- name: Create couchdb data restore script
   ansible.builtin.template:
-    src: "templates/scripts/couchdb-restore.sh.j2"
+    src: "{{ couchdb_restore_template }}"
     dest: "{{ couchdb_restore_bin }}"
     group: root
     owner: root
@@ -65,36 +62,38 @@
     couchdb_data_user: "{{ couchdb_user }}"
     couchdb_data_group: "{{ couchdb_group }}"
 
-- name: create couchdb backup daily schedule
+- name: Create couchdb backup daily schedule
   ansible.builtin.cron:
     name: "couchdb daily backup"
     special_time: daily
     job: "{{ couchdb_restore_bin }}"
   when: couchdb_backup_daily
 
-- name: configure couchdb vm.args file
+- name: Configure couchdb vm.args file
   ansible.builtin.template:
-    src: "{{ item }}"
-    dest: /opt/couchdb/etc/{{ item | basename | regex_replace('\.j2', '') }}
+    src: "{{ couchdb_vm_args_template }}"
+    dest: "/opt/couchdb/etc/vm.args"
     owner: couchdb
     group: couchdb
     mode: 0640
-  with_fileglob:
-    - templates/etc/vm.args.j2
-  notify: restart couchdb
+  notify: Restart couchdb
 
-- name: configure couchdb ini files
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: /opt/couchdb/etc/local.d/{{ item | basename | regex_replace('\.j2', '') }}
+- name: Configure couchdb ini files
+  ansible.builtin.copy:
+    dest: "/opt/couchdb/etc/local.d/{{ _filename }}"
+    content: "{{ _content }}"
     owner: couchdb
     group: couchdb
     mode: 0640
-  with_fileglob:
-    - templates/config/*.j2
-  notify: restart couchdb
+  vars:
+    _filename: "{{ item | regex_replace('.j2$', '') | basename }}"
+    _content: "{{ lookup('template', item) }}"
+  loop: "{{ lookup('fileglob', 'templates/config/*.j2', wantlist=True) }}"
+  loop_control:
+    label: "{{ _filename }}"
+  notify: Restart couchdb
 
-- name: start couchdb service
+- name: Start couchdb service
   ansible.builtin.service:
     name: "{{ couchdb_service_name }}"
     state: started

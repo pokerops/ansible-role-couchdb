@@ -1,2 +1,10 @@
 __pycache__
 .venv/
+*.swp
+.molecule/
+.cache/
+__pycache__/
+Gemfile.lock
+**/.ropeproject
+playbook.retry
+.DS_Store

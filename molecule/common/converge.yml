@@ -11,7 +11,7 @@
 
         - name: apply couchdb role
           ansible.builtin.include_role:
-            name: wpnops.couchdb
+            name: pokerops.couchdb
 
       rescue:
 

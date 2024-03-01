@@ -1,5 +1,5 @@
 ---
-- name: restart couchdb
+- name: Restart couchdb
   ansible.builtin.service:
     name: "{{ couchdb_service_name }}"
     state: restarted

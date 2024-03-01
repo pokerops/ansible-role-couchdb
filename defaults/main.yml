@@ -1,10 +1,10 @@
 ---
 couchdb_bind_port: 5984
-couchdb_install_mode: standalone  # standalone | cluster | none
+couchdb_install_mode: standalone
 couchdb_install_package: couchdb
 couchdb_service_name: couchdb
 couchdb_bind_address: 127.0.0.1
-couchdb_require_auth: never  # always | except_for_up | never
+couchdb_require_auth: never
 couchdb_user: couchdb
 couchdb_group: couchdb
 couchdb_backup_daily: false
@@ -35,3 +35,10 @@ couchdb_log_level: info
 couchdb_single_node: true
 couchdb_admins:
   admin: password
+couchdb_packages:
+  - curl
+  - apt-transport-https
+  - gnupg
+couchdb_backup_template: "templates/scripts/couchdb-backup.sh.j2"
+couchdb_restore_template: "templates/scripts/couchdb-restore.sh.j2"
+couchdb_vm_args_template: "templates/etc/vm.args.j2"
