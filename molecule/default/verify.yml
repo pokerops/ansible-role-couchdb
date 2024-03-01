@@ -1,5 +1,5 @@
 ---
-- name: verify
+- name: Verify
 
   hosts: all
 
@@ -7,13 +7,13 @@
 
   tasks:
 
-    - name: verify daemon status
-      uri:
+    - name: Verify daemon status
+      ansible.builtin.uri:
         url: "http://localhost:5984"
         status_code: 200
 
-    - name: create test database
-      uri:
+    - name: Vreate test database
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: admin
@@ -21,8 +21,8 @@
         force_basic_auth: yes
         status_code: 201
 
-    - name: verify test database exists
-      uri:
+    - name: Verify test database exists
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: admin
@@ -30,8 +30,8 @@
         force_basic_auth: yes
         status_code: 412
 
-    - name: delete test database
-      uri:
+    - name: Delete test database
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: DELETE
         user: admin

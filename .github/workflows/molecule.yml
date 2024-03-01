@@ -2,9 +2,7 @@
 name: molecule
 
 on:
-
   pull_request:
-  push:
     branches:
       - master
   schedule:
@@ -12,51 +10,45 @@ on:
 
 defaults:
   run:
-    working-directory: 'wpnops.couchdb'
+    working-directory: 'pokerops.couchdb'
 
 jobs:
-
   molecule:
-    name: molecule
+    name: molecule tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - distro: ubuntu2004
-            command: /lib/systemd/systemd
-          - distro: ubuntu2204
-            command: /lib/systemd/systemd
         scenario:
-          - default
-          - users
-          - restore
+          - ubuntu2004
+          - ubuntu2204
     steps:
-      - name: check out the codebase.
-        uses: actions/checkout@v2
-        with:
-          path: 'wpnops.couchdb'
 
-      - name: set up Python 3.
-        uses: actions/setup-python@v2
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+        with:
+          path: 'pokerops.couchdb'
+
+      - name: Set up python 3
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: install poetry
-        run: pip3 install poetry
+      - name: Update ubuntu repositories
+        run: sudo apt-get update
 
-      - name: install pips
-        run: poetry install
+      - name: Install make
+        run: sudo apt-get install -y make
 
-      - name: install podman
-        run: sudo apt-get install -y podman
+      - name: Install dependencies
+        run: make install
 
-      - name: configure podman registry
-        run: poetry run ansible -b -m lineinfile localhost -a "path=/etc/containers/registries.conf line='unqualified-search-registries = [\"docker.io\"]'"
+      - name: Debug test environment
+        run: make debug
 
-      - name: run molecule tests.
-        run: poetry run molecule test -s ${{ matrix.scenario }}
+      - name: Run molecule tests
+        run: make test
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DISTRO: ${{ matrix.distro }}
-          MOLECULE_IMAGE_COMMAND: ${{ matrix.command }}
+          MOLECULE_DISTRO: ${{ matrix.scenario }}
+          MOLECULE_IMAGE_COMMAND: /lib/systemd/systemd

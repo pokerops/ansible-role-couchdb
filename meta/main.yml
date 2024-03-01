@@ -1,13 +1,15 @@
 ---
 galaxy_info:
   role_name: couchdb
-  namespace: wpnops
-  author: Jose Solis
-  description: An Ansible role to install and configure a couchdb
+  author: pokerops
+  description: An Ansible role to install and configure couchdb
   license: MIT
-  min_ansible_version: 2.2
+  min_ansible_version: 2.9.11
   platforms:
     - name: Ubuntu
       versions:
-        - all
+        - focal
+        - jammy
   galaxy_tags: ['couchdb']
+
+dependencies: []

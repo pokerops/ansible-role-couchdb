@@ -6,13 +6,17 @@ authors = ["Ted Cook <teodoro.cook@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 
 [tool.poetry.group.dev.dependencies]
-ansible-lint = "^6.8.4"
-ansible = "^6.5.0"
-molecule = {extras = ["podman"], version = "^4.0.3"}
-molecule-podman = "^2.0.3"
+pyyaml = "^6.0.1"
+ansible-compat = "^4.1.11"
+ansible-lint = { version = "*", markers = "platform_system != 'Windows'" }
+ansible = "^8.6.1"
+requests = "^2.31.0"
+netaddr = "^1.2.1"
+molecule = "^24.2.0"
+molecule-docker = "^2.1.0"
 
 [build-system]
 requires = ["poetry-core"]

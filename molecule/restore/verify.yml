@@ -1,5 +1,5 @@
 ---
-- name: verify
+- name: Verify
 
   hosts: all
 
@@ -7,13 +7,13 @@
 
   tasks:
 
-    - name: verify couchdb status
-      uri:
+    - name: Verify couchdb status
+      ansible.builtin.uri:
         url: "http://localhost:5984"
         status_code: 200
 
-    - name: create test database
-      uri:
+    - name: Create test database
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: admin
@@ -21,8 +21,8 @@
         force_basic_auth: yes
         status_code: 201
 
-    - name: verify test database exists
-      uri:
+    - name: Verify test database exists
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: admin
@@ -30,11 +30,11 @@
         force_basic_auth: yes
         status_code: 412
 
-    - name: create backup
+    - name: Create backup
       ansible.builtin.command: /usr/local/bin/couchdb-backup
 
-    - name: delete test database
-      uri:
+    - name: Delete test database
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: DELETE
         user: admin
@@ -42,8 +42,8 @@
         force_basic_auth: yes
         status_code: 200
 
-    - name: verify test database was deleted
-      uri:
+    - name: Verify test database was deleted
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: DELETE
         user: admin
@@ -51,14 +51,18 @@
         force_basic_auth: yes
         status_code: 404
 
-    - name: restore from backup
+    - name: Restore from backup
       ansible.builtin.command: /usr/local/bin/couchdb-restore
 
-    - name: verify test database exists
-      uri:
+    - name: Verify test database exists
+      ansible.builtin.uri:
         url: "http://localhost:5984/test_db"
         method: PUT
         user: admin
         password: password
         force_basic_auth: yes
         status_code: 412
+      register: couchdb_restore_output
+      retries: 5
+      delay: 60
+      until: couchdb_restore_output.status == 412

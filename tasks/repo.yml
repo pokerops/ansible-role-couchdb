@@ -1,9 +1,9 @@
 ---
-- name: add couchdb apt-key
+- name: Add couchdb apt-key
   ansible.builtin.apt_key:
     url: https://couchdb.apache.org/repo/keys.asc
     state: present
 
-- name: add couchdb apt-repo
+- name: Add couchdb apt-repo
   ansible.builtin.apt_repository:
     repo: "deb https://apache.jfrog.io/artifactory/couchdb-deb {{ ansible_distribution_release }} main"

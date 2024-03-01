@@ -1,5 +1,5 @@
 ---
-- name: converge
+- name: Converge
 
   hosts: all
 
@@ -7,22 +7,22 @@
 
   roles:
 
-    - wpnops.couchdb
+    - pokerops.couchdb
 
   pre_tasks:
 
-    - name: stop couchdb service
+    - name: Stop couchdb service
       ansible.builtin.service:
         name: "{{ couchdb_service_name }}"
         state: stopped
 
   post_tasks:
 
-    - name: wait for service start
+    - name: Wait for service start
       ansible.builtin.wait_for:
         port: 5984
 
-    - name: verify daemon status
+    - name: Werify daemon status
       ansible.builtin.uri:
         url: "http://localhost:5984"
         status_code: 200
