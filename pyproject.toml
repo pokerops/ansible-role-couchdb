@@ -16,6 +16,7 @@ ansible = "^8.6.1"
 requests = "^2.31.0"
 netaddr = "^1.2.1"
 molecule = "^24.2.0"
+molecule-docker = "^2.1.0"
 
 [build-system]
 requires = ["poetry-core"]

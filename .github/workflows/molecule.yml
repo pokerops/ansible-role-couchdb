@@ -18,8 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        - ubuntu2004
-        - ubuntu2204
+        scenario:
+          - ubuntu2004
+          - ubuntu2204
     steps:
 
       - name: Check out the codebase
@@ -49,5 +50,5 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DISTRO: ${{ matrix }}
+          MOLECULE_DISTRO: ${{ matrix.scenario }}
           MOLECULE_IMAGE_COMMAND: /lib/systemd/systemd
